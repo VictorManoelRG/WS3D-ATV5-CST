@@ -20,6 +20,7 @@
 package codelets.behaviors;
 
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import java.util.List;
 import org.json.JSONException;
@@ -35,9 +36,9 @@ import ws3dproxy.model.Thing;
 
 public class Forage extends Codelet {
     
-        private MemoryObject knownMO;
+        private Memory knownMO;
         private List<Thing> known;
-        private MemoryObject legsMO;
+        private Memory legsMO;
 
 
 	/**
@@ -53,7 +54,7 @@ public class Forage extends Codelet {
 		JSONObject message=new JSONObject();
 			try {
 				message.put("ACTION", "FORAGE");
-				legsMO.updateI(message.toString());
+				legsMO.setI(message.toString());
 			
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

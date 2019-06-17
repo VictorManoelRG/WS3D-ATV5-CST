@@ -20,6 +20,7 @@
 package codelets.perception;
 
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import java.util.Collections;
 import java.util.List;
@@ -36,8 +37,8 @@ import ws3dproxy.model.Thing;
  */
 public class AppleDetector extends Codelet {
 
-        private MemoryObject visionMO;
-        private MemoryObject knownApplesMO;
+        private Memory visionMO;
+        private Memory knownApplesMO;
 
 	public AppleDetector(){
 		

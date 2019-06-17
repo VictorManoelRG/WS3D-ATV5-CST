@@ -22,6 +22,7 @@ package codelets.perception;
 
 
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import java.util.Collections;
 import memory.CreatureInnerSense;
@@ -35,9 +36,9 @@ import ws3dproxy.model.Thing;
  */
 public class ClosestAppleDetector extends Codelet {
 
-	private MemoryObject knownMO;
-	private MemoryObject closestAppleMO;
-	private MemoryObject innerSenseMO;
+	private Memory knownMO;
+	private Memory closestAppleMO;
+	private Memory innerSenseMO;
 	
         private List<Thing> known;
 

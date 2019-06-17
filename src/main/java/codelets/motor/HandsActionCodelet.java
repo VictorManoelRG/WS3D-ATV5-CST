@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -39,7 +40,7 @@ import ws3dproxy.model.Creature;
 
 public class HandsActionCodelet extends Codelet{
 
-	private MemoryObject handsMO;
+	private Memory handsMO;
 	private String previousHandsAction="";
         private Creature c;
         private Random r = new Random();

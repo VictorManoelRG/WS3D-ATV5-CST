@@ -25,15 +25,16 @@ import java.awt.geom.Point2D;
 import org.json.JSONException;
 import org.json.JSONObject;
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import memory.CreatureInnerSense;
 import ws3dproxy.model.Thing;
 
 public class GoToClosestApple extends Codelet {
 
-	private MemoryObject closestAppleMO;
-	private MemoryObject selfInfoMO;
-	private MemoryObject legsMO;
+	private Memory closestAppleMO;
+	private Memory selfInfoMO;
+	private Memory legsMO;
 	private int creatureBasicSpeed;
 	private double reachDistance;
 
@@ -94,7 +95,7 @@ public class GoToClosestApple extends Codelet {
 					message.put("Y", (int)appleY);
                                         message.put("SPEED", 0.0);	
 				}
-				legsMO.updateI(message.toString());
+				legsMO.setI(message.toString());
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}	

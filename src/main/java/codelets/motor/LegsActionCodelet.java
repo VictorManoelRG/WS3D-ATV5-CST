@@ -23,6 +23,7 @@ package codelets.motor;
 import org.json.JSONObject;
 
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ import ws3dproxy.model.Creature;
 
 public class LegsActionCodelet extends Codelet{
 
-	private MemoryObject legsActionMO;
+	private Memory legsActionMO;
 	private double previousTargetx=0;
 	private double previousTargety=0;
 	private String previousLegsAction="";

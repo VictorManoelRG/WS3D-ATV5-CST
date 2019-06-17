@@ -20,6 +20,7 @@
 package codelets.sensors;
 
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import memory.CreatureInnerSense;
 import ws3dproxy.model.Creature;
@@ -33,7 +34,7 @@ import ws3dproxy.model.Creature;
 
 public class InnerSense extends Codelet {
 
-	private MemoryObject innerSenseMO;
+	private Memory innerSenseMO;
         private Creature c;
         private CreatureInnerSense cis;
 

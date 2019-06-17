@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.unicamp.cst.core.entities.Codelet;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import memory.CreatureInnerSense;
 import java.util.List;
@@ -34,11 +35,11 @@ import ws3dproxy.model.Thing;
 
 public class EatClosestApple extends Codelet {
 
-	private MemoryObject closestAppleMO;
-	private MemoryObject innerSenseMO;
-        private MemoryObject knownMO;
+	private Memory closestAppleMO;
+	private Memory innerSenseMO;
+        private Memory knownMO;
 	private int reachDistance;
-	private MemoryObject handsMO;
+	private Memory handsMO;
         Thing closestApple;
         CreatureInnerSense cis;
         List<Thing> known;
@@ -95,10 +96,10 @@ public class EatClosestApple extends Codelet {
 				if(distance<reachDistance){ //eat it						
 					message.put("OBJECT", appleName);
 					message.put("ACTION", "EATIT");
-					handsMO.updateI(message.toString());
+					handsMO.setI(message.toString());
                                         DestroyClosestApple();
 				}else{
-					handsMO.updateI("");	//nothing
+					handsMO.setI("");	//nothing
 				}
 				
 //				System.out.println(message);
@@ -107,7 +108,7 @@ public class EatClosestApple extends Codelet {
 				e.printStackTrace();
 			}
 		}else{
-			handsMO.updateI("");	//nothing
+			handsMO.setI("");	//nothing
 		}
         //System.out.println("Before: "+known.size()+ " "+known);
         
