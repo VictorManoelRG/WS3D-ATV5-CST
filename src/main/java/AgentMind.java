@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 import br.unicamp.cst.core.entities.Codelet;
-import br.unicamp.cst.core.entities.MemoryObject;
+import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.Mind;
 import codelets.behaviors.EatClosestApple;
 import codelets.behaviors.Forage;
@@ -49,12 +49,12 @@ public class AgentMind extends Mind {
                 super();
                 
                 // Declare Memory Objects
-	        MemoryObject legsMO;
-	        MemoryObject handsMO;
-                MemoryObject visionMO;
-                MemoryObject innerSenseMO;
-                MemoryObject closestAppleMO;
-                MemoryObject knownApplesMO;
+	        Memory legsMO;
+	        Memory handsMO;
+                Memory visionMO;
+                Memory innerSenseMO;
+                Memory closestAppleMO;
+                Memory knownApplesMO;
                 
                 //Initialize Memory Objects
                 legsMO=createMemoryObject("LEGS", "");
