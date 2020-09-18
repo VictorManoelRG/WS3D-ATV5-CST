@@ -17,6 +17,9 @@ if (!hasProperty('mainClass')) {
 }
 
 repositories {
+    flatDir {
+        dirs '../cst/build/libs'
+    }
     mavenCentral()
     maven { url 'https://jitpack.io' }
     // You may define additional repositories, or even remove "mavenCentral()".
@@ -29,7 +32,8 @@ dependencies {
     // You can read more about how to add dependency here:
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
     implementation fileTree(dir: 'lib', include: ['*.jar'])
-    implementation 'com.github.CST-Group:cst:0.2.4'
+    //implementation 'com.github.CST-Group:cst:0.2.4'
+    implementation ':cst:0.5.1-full'
     implementation 'org.json:json:20180813'
     
     //implementation fileTree(dir: 'lib', include: ['*.jar'])

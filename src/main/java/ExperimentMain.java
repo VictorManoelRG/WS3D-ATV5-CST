@@ -17,6 +17,7 @@
  *    Klaus Raizer, Andre Paraense, Ricardo Ribeiro Gudwin
  *****************************************************************************/
 
+import br.unicamp.cst.util.MindViewer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +37,9 @@ public class ExperimentMain {
                 Logger.getLogger("codelets").setLevel(Level.SEVERE);
                 // Create Environment
                 Environment env=new Environment(); //Creates only a creature and some apples
-		AgentMind a = new AgentMind(env);  // Creates the Agent Mind and start it                
+		AgentMind a = new AgentMind(env);  // Creates the Agent Mind and start it   
+                MindViewer mv = new MindViewer(a,"MindViewer",null);
+                mv.setVisible(true);
             
         }
 
