@@ -30,7 +30,7 @@ import br.unicamp.cst.core.entities.MemoryObject;
 import memory.CreatureInnerSense;
 import ws3dproxy.model.Thing;
 
-public class GoToClosestApple extends Codelet {
+public class GoToClosestJewel extends Codelet {
 
 	private Memory closestAppleMO;
 	private Memory selfInfoMO;
@@ -38,7 +38,7 @@ public class GoToClosestApple extends Codelet {
 	private int creatureBasicSpeed;
 	private double reachDistance;
 
-	public GoToClosestApple(int creatureBasicSpeed, int reachDistance) {
+	public GoToClosestJewel(int creatureBasicSpeed, int reachDistance) {
 		this.creatureBasicSpeed=creatureBasicSpeed;
 		this.reachDistance=reachDistance;
 	}

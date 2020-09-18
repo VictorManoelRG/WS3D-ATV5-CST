@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import ws3dproxy.model.Thing;
 
-public class EatClosestApple extends Codelet {
+public class GetClosestJewel extends Codelet {
 
 	private Memory closestAppleMO;
 	private Memory innerSenseMO;
@@ -44,7 +44,7 @@ public class EatClosestApple extends Codelet {
         CreatureInnerSense cis;
         List<Thing> known;
 
-	public EatClosestApple(int reachDistance) {
+	public GetClosestJewel(int reachDistance) {
                 setTimeStep(50);
 		this.reachDistance=reachDistance;
 	}
