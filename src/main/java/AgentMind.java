@@ -17,15 +17,10 @@
  *    Klaus Raizer, Andre Paraense, Ricardo Ribeiro Gudwin
  *****************************************************************************/
 
-import br.unicamp.cst.bindings.soar.JSoarCodelet;
 import br.unicamp.cst.bindings.soar.PlansSubsystemModule;
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
-import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.core.entities.Mind;
-import br.unicamp.cst.representation.owrl.AbstractObject;
-import br.unicamp.cst.representation.owrl.Property;
-import br.unicamp.cst.representation.owrl.QualityDimension;
 import codelets.behaviors.EatClosestApple;
 import codelets.behaviors.Forage;
 import codelets.behaviors.GoToClosestApple;
@@ -33,8 +28,6 @@ import codelets.motor.HandsActionCodelet;
 import codelets.motor.LegsActionCodelet;
 import codelets.perception.AppleDetector;
 import codelets.perception.ClosestAppleDetector;
-import codelets.planning.PlanSelector;
-import codelets.planning.TestSoarCodelet;
 import codelets.sensors.InnerSense;
 import codelets.sensors.Vision;
 import java.util.ArrayList;
@@ -60,7 +53,6 @@ public class AgentMind extends Mind {
                 createCodeletGroup("Sensory");
                 createCodeletGroup("Motor");
                 createCodeletGroup("Perception");
-                createCodeletGroup("Planning");
                 createCodeletGroup("Behavioral");
                 createMemoryGroup("Sensory");
                 createMemoryGroup("Motor");
@@ -75,7 +67,8 @@ public class AgentMind extends Mind {
                 Memory knownApplesMO;
                 
                 //Initialize Memory Objects
-                legsMO=createMemoryObject("LEGS", "");
+                //legsMO=createMemoryObject("LEGS", "");
+                legsMO=createMemoryContainer("LEGS");
                 registerMemory(legsMO,"Motor");
 		handsMO=createMemoryObject("HANDS", "");
                 registerMemory(handsMO,"Motor");
@@ -164,32 +157,6 @@ public class AgentMind extends Mind {
                 insertCodelet(forage);
                 registerCodelet(forage,"Behavioral");
                 behavioralCodelets.add(forage);
-                
-                AbstractObject il_ao = new AbstractObject("InputLink");
-                AbstractObject cp = new AbstractObject("CURRENT_PERCEPTION");
-                il_ao.addCompositePart(cp);
-                AbstractObject conf = new AbstractObject("CONFIGURATION");
-                cp.addCompositePart(conf);
-                conf.addProperty(new Property("SMARTCAR_INFO",new QualityDimension("CAR","CAR12")));
-                AbstractObject tl = new AbstractObject("TRAFFIC_LIGHT");
-                conf.addCompositePart(tl);
-                Property cph = new Property("CURRENT_PHASE");
-                cph.addQualityDimension(new QualityDimension("PHASE","RED"));
-                tl.addProperty(cph);
-                MemoryObject inputLink = createMemoryObject("inputLink", il_ao);
-                registerMemory(inputLink,"Working");
-                MemoryObject outputLink = createMemoryObject("outputLink", new AbstractObject("OutputLink"));
-                registerMemory(outputLink,"Working");
-                JSoarCodelet soar = new TestSoarCodelet("soar","rules.soar",false);
-                soar.addInput(inputLink);
-                soar.addOutput(outputLink);
-                insertCodelet(soar);
-                registerCodelet(soar,"Planning");
-                psm = new PlansSubsystemModule(soar);
-                PlanSelector ps = new PlanSelector("Teste");
-                psm.setPlanSelectionCodelet(ps);
-                this.setPlansSubsystemModule(psm);
-                System.out.println(behavioralCodelets);
                 
                 // sets a time step for running the codelets to avoid heating too much your machine
                 for (Codelet c : this.getCodeRack().getAllCodelets())

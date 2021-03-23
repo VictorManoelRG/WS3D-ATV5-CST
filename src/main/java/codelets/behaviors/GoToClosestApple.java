@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
+import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import memory.CreatureInnerSense;
 import ws3dproxy.model.Thing;
@@ -34,7 +35,7 @@ public class GoToClosestApple extends Codelet {
 
 	private Memory closestAppleMO;
 	private Memory selfInfoMO;
-	private Memory legsMO;
+	private MemoryContainer legsMO;
 	private int creatureBasicSpeed;
 	private double reachDistance;
 
@@ -48,7 +49,7 @@ public class GoToClosestApple extends Codelet {
 	public void accessMemoryObjects() {
 		closestAppleMO=(MemoryObject)this.getInput("CLOSEST_APPLE");
 		selfInfoMO=(MemoryObject)this.getInput("INNER");
-		legsMO=(MemoryObject)this.getOutput("LEGS");
+		legsMO=(MemoryContainer)this.getOutput("LEGS");
 	}
 
 	@Override
@@ -96,14 +97,18 @@ public class GoToClosestApple extends Codelet {
 					message.put("X", (int)appleX);
 					message.put("Y", (int)appleY);
                                         message.put("SPEED", 0.0);
-                                        activation=0.0;
+                                        activation=0.5;
 				}
-				legsMO.setI(message.toString());
+				legsMO.setI(message.toString(),activation,name);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}	
 		}
-                else activation=0.0;
+                else {
+                    activation=0.0;
+                    legsMO.setI("",activation,name);
+                }
+                
 	}//end proc
         
         @Override

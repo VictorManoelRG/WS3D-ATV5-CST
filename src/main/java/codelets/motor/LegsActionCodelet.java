@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
-import br.unicamp.cst.core.entities.MemoryObject;
+import br.unicamp.cst.core.entities.MemoryContainer;
 import java.util.Random;
 import java.util.logging.Logger;
 import org.json.JSONException;
@@ -55,7 +55,7 @@ public class LegsActionCodelet extends Codelet{
 	
 	@Override
 	public void accessMemoryObjects() {
-		legsActionMO=(MemoryObject)this.getInput("LEGS");
+		legsActionMO=(MemoryContainer)this.getInput("LEGS");
 	}
 	
 	@Override
@@ -111,6 +111,14 @@ public class LegsActionCodelet extends Codelet{
                         k++;	
 			} catch (JSONException e) {e.printStackTrace();}
 		}
+                else {
+			log.info("Sending stop command to agent");
+                        try {
+                             c.moveto(0,0,0);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }  
+                    }
 	}//end proc
 
     @Override
