@@ -50,6 +50,7 @@ public class LegsActionCodelet extends Codelet{
 
 	public LegsActionCodelet(Creature nc) {
 		c = nc;
+                this.name = "LegsActionCodelet";
 	}
 	
 	@Override

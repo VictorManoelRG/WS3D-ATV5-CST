@@ -47,6 +47,7 @@ public class GetClosestJewel extends Codelet {
 	public GetClosestJewel(int reachDistance) {
                 setTimeStep(50);
 		this.reachDistance=reachDistance;
+                this.name = "GetClosestJewel";
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class Vision extends Codelet{
 
 	public Vision(Creature nc) {
             c = nc;		
-
+            this.name = "Vision";
 	}
 
 	@Override

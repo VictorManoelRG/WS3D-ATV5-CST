@@ -47,6 +47,7 @@ public class EatClosestApple extends Codelet {
 	public EatClosestApple(int reachDistance) {
                 setTimeStep(50);
 		this.reachDistance=reachDistance;
+                this.name = "EatClosestApple";
 	}
 
 	@Override
@@ -97,9 +98,11 @@ public class EatClosestApple extends Codelet {
 					message.put("OBJECT", appleName);
 					message.put("ACTION", "EATIT");
 					handsMO.setI(message.toString());
+                                        activation=1.0;
                                         DestroyClosestApple();
 				}else{
 					handsMO.setI("");	//nothing
+                                        activation=0.0;
 				}
 				
 //				System.out.println(message);
@@ -109,6 +112,7 @@ public class EatClosestApple extends Codelet {
 			}
 		}else{
 			handsMO.setI("");	//nothing
+                        activation=0.0;
 		}
         //System.out.println("Before: "+known.size()+ " "+known);
         

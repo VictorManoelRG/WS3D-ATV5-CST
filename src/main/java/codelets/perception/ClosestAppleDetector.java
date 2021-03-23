@@ -43,6 +43,7 @@ public class ClosestAppleDetector extends Codelet {
         private List<Thing> known;
 
 	public ClosestAppleDetector() {
+            this.name = "ClosestAppleDetector";
 	}
 
 

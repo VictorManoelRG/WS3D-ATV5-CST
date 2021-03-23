@@ -41,6 +41,7 @@ public class GoToClosestApple extends Codelet {
 	public GoToClosestApple(int creatureBasicSpeed, int reachDistance) {
 		this.creatureBasicSpeed=creatureBasicSpeed;
 		this.reachDistance=reachDistance;
+                this.name = "GoToClosestApple";
 	}
 
 	@Override
@@ -87,19 +88,22 @@ public class GoToClosestApple extends Codelet {
                                         message.put("ACTION", "GOTO");
 					message.put("X", (int)appleX);
 					message.put("Y", (int)appleY);
-                                        message.put("SPEED", creatureBasicSpeed);	
+                                        message.put("SPEED", creatureBasicSpeed);
+                                        activation=1.0;
 
 				}else{//Stop
 					message.put("ACTION", "GOTO");
 					message.put("X", (int)appleX);
 					message.put("Y", (int)appleY);
-                                        message.put("SPEED", 0.0);	
+                                        message.put("SPEED", 0.0);
+                                        activation=0.0;
 				}
 				legsMO.setI(message.toString());
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}	
 		}
+                else activation=0.0;
 	}//end proc
         
         @Override

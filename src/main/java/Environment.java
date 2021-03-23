@@ -17,16 +17,19 @@
  *    Klaus Raizer, Andre Paraense, Ricardo Ribeiro Gudwin
  *****************************************************************************/
 
+import support.ResourcesGenerator;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.WS3DProxy;
 import ws3dproxy.model.Creature;
 import ws3dproxy.model.World;
+import ws3dproxy.util.Constants;
+import ws3dproxy.util.Logger;
 
 /**
  *
  * @author rgudwin
  */
-public class Environment {
+public final class Environment {
     
     public String host="localhost";
     public int port = 4011;
@@ -43,6 +46,7 @@ public class Environment {
              World.createFood(0, 250, 210);
              c = proxy.createCreature(100,450,0);
              c.start();
+             grow(w,7);
              //c.setRobotID("r0");
              //c.startCamera("r0");
              
@@ -55,4 +59,17 @@ public class Environment {
 
 
 	}
+    
+    public synchronized void grow(World w, int time) {
+        try {
+            if (time <= 0) {
+                time = Constants.TIMEFRAME;
+            }
+            w.getDimensionAndDeliverySpot();
+            ResourcesGenerator rg = new ResourcesGenerator(time, w.getEnvironmentWidth(), w.getEnvironmentHeight(), w.getDeliverySpot().getX(), w.getDeliverySpot().getY());
+            rg.start();
+        } catch (CommandExecException ex) {
+            Logger.logException(World.class.getName(), ex);
+        }
+    }
 }

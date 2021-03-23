@@ -17,9 +17,15 @@
  *    Klaus Raizer, Andre Paraense, Ricardo Ribeiro Gudwin
  *****************************************************************************/
 
+import br.unicamp.cst.bindings.soar.JSoarCodelet;
+import br.unicamp.cst.bindings.soar.PlansSubsystemModule;
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
+import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.core.entities.Mind;
+import br.unicamp.cst.representation.owrl.AbstractObject;
+import br.unicamp.cst.representation.owrl.Property;
+import br.unicamp.cst.representation.owrl.QualityDimension;
 import codelets.behaviors.EatClosestApple;
 import codelets.behaviors.Forage;
 import codelets.behaviors.GoToClosestApple;
@@ -27,13 +33,14 @@ import codelets.motor.HandsActionCodelet;
 import codelets.motor.LegsActionCodelet;
 import codelets.perception.AppleDetector;
 import codelets.perception.ClosestAppleDetector;
+import codelets.planning.PlanSelector;
+import codelets.planning.TestSoarCodelet;
 import codelets.sensors.InnerSense;
 import codelets.sensors.Vision;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import memory.CreatureInnerSense;
-import support.MindView;
 import ws3dproxy.model.Thing;
 
 /**
@@ -44,6 +51,8 @@ public class AgentMind extends Mind {
     
     private static int creatureBasicSpeed=3;
     private static int reachDistance=50;
+    public ArrayList<Codelet> behavioralCodelets = new ArrayList<Codelet>();
+    public PlansSubsystemModule psm;
     
     public AgentMind(Environment env) {
                 super();
@@ -51,6 +60,7 @@ public class AgentMind extends Mind {
                 createCodeletGroup("Sensory");
                 createCodeletGroup("Motor");
                 createCodeletGroup("Perception");
+                createCodeletGroup("Planning");
                 createCodeletGroup("Behavioral");
                 createMemoryGroup("Sensory");
                 createMemoryGroup("Motor");
@@ -83,15 +93,15 @@ public class AgentMind extends Mind {
                 registerMemory(knownApplesMO,"Working");
                 
                 // Create and Populate MindViewer
-                MindView mv = new MindView("MindView");
-                mv.addMO(knownApplesMO);
-                mv.addMO(visionMO);
-                mv.addMO(closestAppleMO);
-                mv.addMO(innerSenseMO);
-                mv.addMO(handsMO);
-                mv.addMO(legsMO);
-                mv.StartTimer();
-                mv.setVisible(true);
+//                MindView mv = new MindView("MindView");
+//                mv.addMO(knownApplesMO);
+//                mv.addMO(visionMO);
+//                mv.addMO(closestAppleMO);
+//                mv.addMO(innerSenseMO);
+//                mv.addMO(handsMO);
+//                mv.addMO(legsMO);
+//                mv.StartTimer();
+//                mv.setVisible(true);
 		
 		// Create Sensor Codelets	
 		Codelet vision=new Vision(env.c);
@@ -136,6 +146,8 @@ public class AgentMind extends Mind {
 		goToClosestApple.addOutput(legsMO);
                 insertCodelet(goToClosestApple);
                 registerCodelet(goToClosestApple,"Behavioral");
+                
+                behavioralCodelets.add(goToClosestApple);
 		
 		Codelet eatApple=new EatClosestApple(reachDistance);
 		eatApple.addInput(closestAppleMO);
@@ -144,12 +156,40 @@ public class AgentMind extends Mind {
                 eatApple.addOutput(knownApplesMO);
                 insertCodelet(eatApple);
                 registerCodelet(eatApple,"Behavioral");
+                behavioralCodelets.add(eatApple);
                 
                 Codelet forage=new Forage();
 		forage.addInput(knownApplesMO);
                 forage.addOutput(legsMO);
                 insertCodelet(forage);
                 registerCodelet(forage,"Behavioral");
+                behavioralCodelets.add(forage);
+                
+                AbstractObject il_ao = new AbstractObject("InputLink");
+                AbstractObject cp = new AbstractObject("CURRENT_PERCEPTION");
+                il_ao.addCompositePart(cp);
+                AbstractObject conf = new AbstractObject("CONFIGURATION");
+                cp.addCompositePart(conf);
+                conf.addProperty(new Property("SMARTCAR_INFO",new QualityDimension("CAR","CAR12")));
+                AbstractObject tl = new AbstractObject("TRAFFIC_LIGHT");
+                conf.addCompositePart(tl);
+                Property cph = new Property("CURRENT_PHASE");
+                cph.addQualityDimension(new QualityDimension("PHASE","RED"));
+                tl.addProperty(cph);
+                MemoryObject inputLink = createMemoryObject("inputLink", il_ao);
+                registerMemory(inputLink,"Working");
+                MemoryObject outputLink = createMemoryObject("outputLink", new AbstractObject("OutputLink"));
+                registerMemory(outputLink,"Working");
+                JSoarCodelet soar = new TestSoarCodelet("soar","rules.soar",false);
+                soar.addInput(inputLink);
+                soar.addOutput(outputLink);
+                insertCodelet(soar);
+                registerCodelet(soar,"Planning");
+                psm = new PlansSubsystemModule(soar);
+                PlanSelector ps = new PlanSelector("Teste");
+                psm.setPlanSelectionCodelet(ps);
+                this.setPlansSubsystemModule(psm);
+                System.out.println(behavioralCodelets);
                 
                 // sets a time step for running the codelets to avoid heating too much your machine
                 for (Codelet c : this.getCodeRack().getAllCodelets())

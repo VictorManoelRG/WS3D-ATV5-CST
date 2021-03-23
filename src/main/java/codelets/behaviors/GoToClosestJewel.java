@@ -41,6 +41,7 @@ public class GoToClosestJewel extends Codelet {
 	public GoToClosestJewel(int creatureBasicSpeed, int reachDistance) {
 		this.creatureBasicSpeed=creatureBasicSpeed;
 		this.reachDistance=reachDistance;
+                this.name = "GoToClosestJewel";
 	}
 
 	@Override

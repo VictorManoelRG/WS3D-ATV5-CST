@@ -38,7 +38,10 @@ public class ExperimentMain {
                 // Create Environment
                 Environment env=new Environment(); //Creates only a creature and some apples
 		AgentMind a = new AgentMind(env);  // Creates the Agent Mind and start it   
-                MindViewer mv = new MindViewer(a,"MindViewer",null);
+                // The following lines create the MindViewer and configure it
+                MindViewer mv = new MindViewer(a,"MindViewer",a.behavioralCodelets);
+                //mv.setBehavioralCodelets(a.behavioralCodelets);
+                //System.out.println(a.behavioralCodelets);
                 mv.setVisible(true);
             
         }

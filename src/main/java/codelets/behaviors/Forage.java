@@ -44,7 +44,8 @@ public class Forage extends Codelet {
 	/**
 	 * Default constructor
 	 */
-	public Forage(){       
+	public Forage(){
+            this.name = "Forage";
 	}
 
 	@Override
@@ -55,12 +56,14 @@ public class Forage extends Codelet {
 			try {
 				message.put("ACTION", "FORAGE");
 				legsMO.setI(message.toString());
+                                activation=1.0;
 			
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            }            
+            }
+            else activation=0.0;
 		
 	}
 

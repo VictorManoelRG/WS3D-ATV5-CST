@@ -41,7 +41,7 @@ public class AppleDetector extends Codelet {
         private Memory knownApplesMO;
 
 	public AppleDetector(){
-		
+            this.name = "AppleDetector";
 	}
 
 	@Override
