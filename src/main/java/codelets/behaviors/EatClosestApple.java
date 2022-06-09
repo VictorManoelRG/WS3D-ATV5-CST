@@ -72,8 +72,8 @@ public class EatClosestApple extends Codelet {
 			double appleX=0;
 			double appleY=0;
 			try {
-				appleX=closestApple.getX1();
-				appleY=closestApple.getY1();
+				appleX=closestApple.getCenterPosition().getX();
+				appleY=closestApple.getCenterPosition().getY();
                                 appleName = closestApple.getName();
                                 
 
@@ -94,7 +94,7 @@ public class EatClosestApple extends Codelet {
 			double distance = pSelf.distance(pApple);
 			JSONObject message=new JSONObject();
 			try {
-				if(distance<reachDistance){ //eat it						
+				if(distance<=reachDistance){ //eat it						
 					message.put("OBJECT", appleName);
 					message.put("ACTION", "EATIT");
 					handsMO.setI(message.toString());

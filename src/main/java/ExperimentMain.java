@@ -17,7 +17,7 @@
  *    Klaus Raizer, Andre Paraense, Ricardo Ribeiro Gudwin
  *****************************************************************************/
 
-import br.unicamp.cst.util.MindViewer;
+import br.unicamp.cst.util.viewer.MindViewer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

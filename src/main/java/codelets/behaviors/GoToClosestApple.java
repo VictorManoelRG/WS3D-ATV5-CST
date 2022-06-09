@@ -66,8 +66,8 @@ public class GoToClosestApple extends Codelet {
 			double appleX=0;
 			double appleY=0;
 			try {
-                                appleX = closestApple.getX1();
-                                appleY = closestApple.getY1();
+                                appleX = closestApple.getCenterPosition().getX();
+                                appleY = closestApple.getCenterPosition().getY();
 
 			} catch (Exception e) {
 				e.printStackTrace();

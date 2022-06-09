@@ -73,14 +73,15 @@ public class LegsActionCodelet extends Codelet{
                                     int x=0,y=0;
                                     String action=command.getString("ACTION");
                                     if(action.equals("FORAGE")){
-                                               //if (!comm.equals(previousLegsAction)) { 
-                                               if (!comm.equals(previousLegsAction)) 
+                                               if (!comm.equals(previousLegsAction)) { 
+                                               //if (!comm.equals(previousLegsAction)) 
                                                     log.info("Sending Forage command to agent");
                                                 try {  
                                                       c.rotate(2);     
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
+                                               } 
 					}
                                     else if(action.equals("GOTO")){
                                         if (!comm.equals(previousLegsAction)) {
@@ -112,9 +113,10 @@ public class LegsActionCodelet extends Codelet{
 			} catch (JSONException e) {e.printStackTrace();}
 		}
                 else {
-			log.info("Sending stop command to agent");
+			previousLegsAction = comm;
+                        log.info("Sending stop command to agent");
                         try {
-                             c.moveto(0,0,0);
+                             //c.moveto(0,0,0);
                         } catch(Exception e) {
                             e.printStackTrace();
                         }  
