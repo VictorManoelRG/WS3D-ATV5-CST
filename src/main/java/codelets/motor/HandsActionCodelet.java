@@ -48,6 +48,7 @@ public class HandsActionCodelet extends Codelet{
 
 	public HandsActionCodelet(Creature nc) {
                 c = nc;
+                this.name = "HandsActionCodelet";
 	}
 	
         @Override

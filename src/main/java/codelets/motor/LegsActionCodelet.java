@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
-import br.unicamp.cst.core.entities.MemoryObject;
+import br.unicamp.cst.core.entities.MemoryContainer;
 import java.util.Random;
 import java.util.logging.Logger;
 import org.json.JSONException;
@@ -50,11 +50,12 @@ public class LegsActionCodelet extends Codelet{
 
 	public LegsActionCodelet(Creature nc) {
 		c = nc;
+                this.name = "LegsActionCodelet";
 	}
 	
 	@Override
 	public void accessMemoryObjects() {
-		legsActionMO=(MemoryObject)this.getInput("LEGS");
+		legsActionMO=(MemoryContainer)this.getInput("LEGS");
 	}
 	
 	@Override
@@ -72,14 +73,15 @@ public class LegsActionCodelet extends Codelet{
                                     int x=0,y=0;
                                     String action=command.getString("ACTION");
                                     if(action.equals("FORAGE")){
-                                               //if (!comm.equals(previousLegsAction)) { 
-                                               if (!comm.equals(previousLegsAction)) 
+                                               if (!comm.equals(previousLegsAction)) { 
+                                               //if (!comm.equals(previousLegsAction)) 
                                                     log.info("Sending Forage command to agent");
                                                 try {  
                                                       c.rotate(2);     
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
+                                               } 
 					}
                                     else if(action.equals("GOTO")){
                                         if (!comm.equals(previousLegsAction)) {
@@ -110,6 +112,15 @@ public class LegsActionCodelet extends Codelet{
                         k++;	
 			} catch (JSONException e) {e.printStackTrace();}
 		}
+                else {
+			previousLegsAction = comm;
+                        log.info("Sending stop command to agent");
+                        try {
+                             //c.moveto(0,0,0);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }  
+                    }
 	}//end proc
 
     @Override

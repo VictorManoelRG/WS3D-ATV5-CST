@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
+import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import memory.CreatureInnerSense;
 import ws3dproxy.model.Thing;
@@ -34,20 +35,21 @@ public class GoToClosestApple extends Codelet {
 
 	private Memory closestAppleMO;
 	private Memory selfInfoMO;
-	private Memory legsMO;
+	private MemoryContainer legsMO;
 	private int creatureBasicSpeed;
 	private double reachDistance;
 
 	public GoToClosestApple(int creatureBasicSpeed, int reachDistance) {
 		this.creatureBasicSpeed=creatureBasicSpeed;
 		this.reachDistance=reachDistance;
+                this.name = "GoToClosestApple";
 	}
 
 	@Override
 	public void accessMemoryObjects() {
 		closestAppleMO=(MemoryObject)this.getInput("CLOSEST_APPLE");
 		selfInfoMO=(MemoryObject)this.getInput("INNER");
-		legsMO=(MemoryObject)this.getOutput("LEGS");
+		legsMO=(MemoryContainer)this.getOutput("LEGS");
 	}
 
 	@Override
@@ -64,8 +66,8 @@ public class GoToClosestApple extends Codelet {
 			double appleX=0;
 			double appleY=0;
 			try {
-                                appleX = closestApple.getX1();
-                                appleY = closestApple.getY1();
+                                appleX = closestApple.getCenterPosition().getX();
+                                appleY = closestApple.getCenterPosition().getY();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -87,19 +89,26 @@ public class GoToClosestApple extends Codelet {
                                         message.put("ACTION", "GOTO");
 					message.put("X", (int)appleX);
 					message.put("Y", (int)appleY);
-                                        message.put("SPEED", creatureBasicSpeed);	
+                                        message.put("SPEED", creatureBasicSpeed);
+                                        activation=1.0;
 
 				}else{//Stop
 					message.put("ACTION", "GOTO");
 					message.put("X", (int)appleX);
 					message.put("Y", (int)appleY);
-                                        message.put("SPEED", 0.0);	
+                                        message.put("SPEED", 0.0);
+                                        activation=0.5;
 				}
-				legsMO.setI(message.toString());
+				legsMO.setI(message.toString(),activation,name);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}	
 		}
+                else {
+                    activation=0.0;
+                    legsMO.setI("",activation,name);
+                }
+                
 	}//end proc
         
         @Override

@@ -40,6 +40,7 @@ public class InnerSense extends Codelet {
 
 	public InnerSense(Creature nc) {
 		c = nc;
+                this.name = "InnerSense";
 	}
 	@Override
 	public void accessMemoryObjects() {
