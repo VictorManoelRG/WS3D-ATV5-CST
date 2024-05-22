@@ -22,7 +22,7 @@ package codelets.sensors;
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
-import memory.CreatureInnerSense;
+import br.unicamp.cst.representation.idea.Idea;
 import ws3dproxy.model.Creature;
 
 
@@ -36,7 +36,7 @@ public class InnerSense extends Codelet {
 
 	private Memory innerSenseMO;
         private Creature c;
-        private CreatureInnerSense cis;
+        private Idea cis;
 
 	public InnerSense(Creature nc) {
 		c = nc;
@@ -45,14 +45,16 @@ public class InnerSense extends Codelet {
 	@Override
 	public void accessMemoryObjects() {
 		innerSenseMO=(MemoryObject)this.getOutput("INNER");
-                cis = (CreatureInnerSense) innerSenseMO.getI();
+                cis = (Idea) innerSenseMO.getI();
 	}
 	
 	public void proc() {
-             cis.position = c.getPosition();
-             cis.pitch = c.getPitch();
-             cis.fuel = c.getFuel();
-             cis.FOV = c.getFOV();
+             cis.get("position.x").setValue(c.getPosition().getX());
+             cis.get("position.y").setValue(c.getPosition().getY());
+             cis.get("pitch").setValue(c.getPitch());
+             cis.get("fuel").setValue(c.getFuel());
+             cis.get("FOV").setValue(c.getFOV());
+             innerSenseMO.setI(cis);
 	}
         
         @Override

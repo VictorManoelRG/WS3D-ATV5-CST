@@ -20,6 +20,7 @@
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.Mind;
+import br.unicamp.cst.representation.idea.Idea;
 import codelets.behaviors.EatClosestApple;
 import codelets.behaviors.Forage;
 import codelets.behaviors.GoToClosestApple;
@@ -29,12 +30,11 @@ import codelets.perception.AppleDetector;
 import codelets.perception.ClosestAppleDetector;
 import codelets.sensors.InnerSense;
 import codelets.sensors.Vision;
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import memory.CreatureInnerSense;
 import ws3dproxy.model.Thing;
-
 /**
  *
  * @author rgudwin
@@ -73,7 +73,15 @@ public class AgentMind extends Mind {
                 List<Thing> vision_list = Collections.synchronizedList(new ArrayList<Thing>());
 		visionMO=createMemoryObject("VISION",vision_list);
                 registerMemory(visionMO,"Sensory");
-                CreatureInnerSense cis = new CreatureInnerSense();
+                //CreatureInnerSense cis = new CreatureInnerSense();
+                Idea cis = Idea.createIdea("cis", null, Idea.guessType("AbstractObject", 1));
+                cis.add(Idea.createIdea("pitch", 0D, Idea.guessType("Property", 1)));
+                cis.add(Idea.createIdea("fuel", 0D, Idea.guessType("Property", 1)));
+                Idea position = Idea.createIdea("position", null, Idea.guessType("Property",1));
+                position.add(Idea.createIdea("x",0D,Idea.guessType("QualityDimension",1)));
+                position.add(Idea.createIdea("y",0D,Idea.guessType("QualityDimension",1)));
+                cis.add(position);                
+                cis.add(Idea.createIdea("FOV", new Polygon(), Idea.guessType("Property", 1)));
 		innerSenseMO=createMemoryObject("INNER", cis);
                 registerMemory(innerSenseMO,"Sensory");
                 Thing closestApple = null;

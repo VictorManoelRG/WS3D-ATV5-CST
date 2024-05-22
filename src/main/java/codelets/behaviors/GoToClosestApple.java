@@ -28,7 +28,7 @@ import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
-import memory.CreatureInnerSense;
+import br.unicamp.cst.representation.idea.Idea;
 import ws3dproxy.model.Thing;
 
 public class GoToClosestApple extends Codelet {
@@ -59,7 +59,7 @@ public class GoToClosestApple extends Codelet {
 		//If close, stops
 
                 Thing closestApple = (Thing) closestAppleMO.getI();
-                CreatureInnerSense cis = (CreatureInnerSense) selfInfoMO.getI();
+                Idea cis = (Idea) selfInfoMO.getI();
 
 		if(closestApple != null)
 		{
@@ -73,8 +73,8 @@ public class GoToClosestApple extends Codelet {
 				e.printStackTrace();
 			}
 
-			double selfX=cis.position.getX();
-			double selfY=cis.position.getY();
+			double selfX=(double)cis.get("position.x").getValue();
+			double selfY=(double)cis.get("position.y").getValue();
 
 			Point2D pApple = new Point();
 			pApple.setLocation(appleX, appleY);

@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
-import memory.CreatureInnerSense;
+import br.unicamp.cst.representation.idea.Idea;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import ws3dproxy.model.Thing;
@@ -41,7 +41,7 @@ public class EatClosestApple extends Codelet {
 	private int reachDistance;
 	private Memory handsMO;
         Thing closestApple;
-        CreatureInnerSense cis;
+        Idea cis;
         List<Thing> known;
 
 	public EatClosestApple(int reachDistance) {
@@ -62,7 +62,7 @@ public class EatClosestApple extends Codelet {
 	public void proc() {
                 String appleName="";
                 closestApple = (Thing) closestAppleMO.getI();
-                cis = (CreatureInnerSense) innerSenseMO.getI();
+                cis = (Idea) innerSenseMO.getI();
                 known = (List<Thing>) knownMO.getI();
 		//Find distance between closest apple and self
 		//If closer than reachDistance, eat the apple
@@ -82,8 +82,8 @@ public class EatClosestApple extends Codelet {
 				e.printStackTrace();
 			}
 
-			double selfX=cis.position.getX();
-			double selfY=cis.position.getY();
+			double selfX=(double)cis.get("position.x").getValue();
+			double selfY=(double)cis.get("position.y").getValue();
 
 			Point2D pApple = new Point();
 			pApple.setLocation(appleX, appleY);
