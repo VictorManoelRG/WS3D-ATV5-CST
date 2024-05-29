@@ -23,6 +23,9 @@ import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.representation.idea.Idea;
+import java.awt.Polygon;
+import java.util.ArrayList;
+import java.util.List;
 import ws3dproxy.model.Creature;
 
 
@@ -53,7 +56,20 @@ public class InnerSense extends Codelet {
              cis.get("position.y").setValue(c.getPosition().getY());
              cis.get("pitch").setValue(c.getPitch());
              cis.get("fuel").setValue(c.getFuel());
-             cis.get("FOV").setValue(c.getFOV());
+             Polygon pol = c.getFOV();
+             Idea poli = cis.get("FOV");
+             poli.get("bounds.x").setValue(pol.getBounds().getX());
+             poli.get("bounds.y").setValue(pol.getBounds().getY());
+             poli.get("bounds.width").setValue(pol.getBounds().getWidth());
+             poli.get("bounds.height").setValue(pol.getBounds().getHeight());
+             poli.get("npoints").setValue(pol.npoints);
+             Idea points = poli.get("points");
+             for (int i=0;i<pol.npoints;i++) {
+                 Idea p = Idea.createIdea("points.["+i+"]","("+pol.xpoints[i]+","+pol.ypoints[i]+")", Idea.guessType("Property", 1));
+                 p.add(Idea.createIdea("points.["+i+"].x",pol.xpoints[i], Idea.guessType("Property", 1)));
+                 p.add(Idea.createIdea("points.["+i+"].y",pol.ypoints[i], Idea.guessType("Property", 1)));
+                 if (points.get("["+i+"]") == null) points.add(p);
+             }
              innerSenseMO.setI(cis);
 	}
         

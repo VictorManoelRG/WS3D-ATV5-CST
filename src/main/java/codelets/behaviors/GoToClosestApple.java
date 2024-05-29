@@ -23,12 +23,12 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.representation.idea.Idea;
+import com.google.gson.Gson;
 import ws3dproxy.model.Thing;
 
 public class GoToClosestApple extends Codelet {
@@ -83,23 +83,32 @@ public class GoToClosestApple extends Codelet {
 			pSelf.setLocation(selfX, selfY);
 
 			double distance = pSelf.distance(pApple);
-			JSONObject message=new JSONObject();
+			//JSONObject message=new JSONObject();
+                        Idea message = Idea.createIdea("message","", Idea.guessType("Property",1));
 			try {
 				if(distance>reachDistance){ //Go to it
-                                        message.put("ACTION", "GOTO");
-					message.put("X", (int)appleX);
-					message.put("Y", (int)appleY);
-                                        message.put("SPEED", creatureBasicSpeed);
+//                                        message.put("ACTION", "GOTO");
+//					message.put("X", (int)appleX);
+//					message.put("Y", (int)appleY);
+//                                        message.put("SPEED", creatureBasicSpeed);
+                                        message.add(Idea.createIdea("ACTION","GOTO", Idea.guessType("Property",1)));
+                                        message.add(Idea.createIdea("X",(int)appleX, Idea.guessType("Property",1)));
+                                        message.add(Idea.createIdea("Y",(int)appleY, Idea.guessType("Property",1)));
+                                        message.add(Idea.createIdea("SPEED",creatureBasicSpeed, Idea.guessType("Property",1)));
                                         activation=1.0;
 
 				}else{//Stop
-					message.put("ACTION", "GOTO");
-					message.put("X", (int)appleX);
-					message.put("Y", (int)appleY);
-                                        message.put("SPEED", 0.0);
+//					message.put("ACTION", "GOTO");
+//					message.put("X", (int)appleX);
+//					message.put("Y", (int)appleY);
+//                                        message.put("SPEED", 0.0);
+                                        message.add(Idea.createIdea("ACTION","GOTO", Idea.guessType("Property",1)));
+                                        message.add(Idea.createIdea("X",(int)appleX, Idea.guessType("Property",1)));
+                                        message.add(Idea.createIdea("Y",(int)appleY, Idea.guessType("Property",1)));
+                                        message.add(Idea.createIdea("SPEED",creatureBasicSpeed, Idea.guessType("Property",1)));
                                         activation=0.5;
 				}
-				legsMO.setI(message.toString(),activation,name);
+				legsMO.setI(toJson(message),activation,name);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}	
@@ -114,6 +123,25 @@ public class GoToClosestApple extends Codelet {
         @Override
         public void calculateActivation() {
         
+        }
+        
+        String toJson(Idea i) {
+            String q = "\"";
+            String out = "{";
+            String val;
+            int ii=0;
+            for (Idea il : i.getL()) {
+                if (il.getL().isEmpty()) {
+                    if (il.isNumber()) val = il.getValue().toString();
+                    else val = q+il.getValue()+q;
+                }
+                else val = toJson(il);
+                if (ii == 0) out += q+il.getName()+q+":"+val;
+                else out += ","+q+il.getName()+q+":"+val;
+                ii++;
+            }
+            out += "}";
+            return out;
         }
 
 }
