@@ -77,23 +77,12 @@ public class ClosestAppleDetector extends Codelet {
 					}
 				}
 			}
-                        
-//                        if(closest_apple!=null){    
-//				if(closestAppleMO.getI() == null || !closestAppleMO.getI().equals(closest_apple)){
-//                                      closestAppleMO.setI(closest_apple);
-//				}
-//				
-//			}else{
-//				//couldn't find any nearby apples
-//                                closest_apple = null;
-//                                closestAppleMO.setI(closest_apple);
-//			}
 		   }
-//                   else  { // if there are no known apples closest_apple must be null
-//                        closest_apple = null;
-//                        closestAppleMO.setI(closest_apple);
-//		   }
                 }
+//                if (closest_apple != null)
+//                   System.out.println("Closest apple: "+closest_apple.getName()+" known: "+known.size());
+//                else
+//                   System.out.println("Closest apple: null"+" known: "+known.size()); 
                 closestAppleMO.setI(closest_apple);
 	}//end proc
 

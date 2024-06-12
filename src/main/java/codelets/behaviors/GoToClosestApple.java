@@ -28,7 +28,6 @@ import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.representation.idea.Idea;
-import com.google.gson.Gson;
 import ws3dproxy.model.Thing;
 
 public class GoToClosestApple extends Codelet {
@@ -72,7 +71,7 @@ public class GoToClosestApple extends Codelet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+                        
 			double selfX=(double)cis.get("position.x").getValue();
 			double selfY=(double)cis.get("position.y").getValue();
 
@@ -87,10 +86,6 @@ public class GoToClosestApple extends Codelet {
                         Idea message = Idea.createIdea("message","", Idea.guessType("Property",1));
 			try {
 				if(distance>reachDistance){ //Go to it
-//                                        message.put("ACTION", "GOTO");
-//					message.put("X", (int)appleX);
-//					message.put("Y", (int)appleY);
-//                                        message.put("SPEED", creatureBasicSpeed);
                                         message.add(Idea.createIdea("ACTION","GOTO", Idea.guessType("Property",1)));
                                         message.add(Idea.createIdea("X",(int)appleX, Idea.guessType("Property",1)));
                                         message.add(Idea.createIdea("Y",(int)appleY, Idea.guessType("Property",1)));
@@ -98,14 +93,10 @@ public class GoToClosestApple extends Codelet {
                                         activation=1.0;
 
 				}else{//Stop
-//					message.put("ACTION", "GOTO");
-//					message.put("X", (int)appleX);
-//					message.put("Y", (int)appleY);
-//                                        message.put("SPEED", 0.0);
                                         message.add(Idea.createIdea("ACTION","GOTO", Idea.guessType("Property",1)));
                                         message.add(Idea.createIdea("X",(int)appleX, Idea.guessType("Property",1)));
                                         message.add(Idea.createIdea("Y",(int)appleY, Idea.guessType("Property",1)));
-                                        message.add(Idea.createIdea("SPEED",creatureBasicSpeed, Idea.guessType("Property",1)));
+                                        message.add(Idea.createIdea("SPEED",0, Idea.guessType("Property",1)));
                                         activation=0.5;
 				}
 				legsMO.setI(toJson(message),activation,name);
