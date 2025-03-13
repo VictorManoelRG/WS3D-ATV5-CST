@@ -65,9 +65,9 @@ public class InnerSense extends Codelet {
              poli.get("npoints").setValue(pol.npoints);
              Idea points = poli.get("points");
              for (int i=0;i<pol.npoints;i++) {
-                 Idea p = Idea.createIdea("points.["+i+"]","("+pol.xpoints[i]+","+pol.ypoints[i]+")", Idea.guessType("Property", 1));
-                 p.add(Idea.createIdea("points.["+i+"].x",pol.xpoints[i], Idea.guessType("Property", 1)));
-                 p.add(Idea.createIdea("points.["+i+"].y",pol.ypoints[i], Idea.guessType("Property", 1)));
+                 Idea p = Idea.createIdea("points.["+i+"]","("+pol.xpoints[i]+","+pol.ypoints[i]+")", Idea.guessType("Property", null,1.0,0.5));
+                 p.add(Idea.createIdea("points.["+i+"].x",pol.xpoints[i], Idea.guessType("Property", null,1.0,0.5)));
+                 p.add(Idea.createIdea("points.["+i+"].y",pol.ypoints[i], Idea.guessType("Property", null,1.0,0.5)));
                  if (points.get("["+i+"]") == null) points.add(p);
              }
              innerSenseMO.setI(cis);
