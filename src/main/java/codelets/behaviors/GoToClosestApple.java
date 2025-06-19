@@ -60,6 +60,14 @@ public class GoToClosestApple extends Codelet {
                 Thing closestApple = (Thing) closestAppleMO.getI();
                 Idea cis = (Idea) selfInfoMO.getI();
 
+                double fuel = (double)cis.get("fuel").getValue();
+                        
+                        if(fuel>400){
+                            activation=0;
+                            return;
+                        }
+
+                        
 		if(closestApple != null)
 		{
 			double appleX=0;
@@ -74,7 +82,8 @@ public class GoToClosestApple extends Codelet {
                         
 			double selfX=(double)cis.get("position.x").getValue();
 			double selfY=(double)cis.get("position.y").getValue();
-
+                        
+                        
 			Point2D pApple = new Point();
 			pApple.setLocation(appleX, appleY);
 
