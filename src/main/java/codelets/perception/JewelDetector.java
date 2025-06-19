@@ -36,50 +36,49 @@ public class JewelDetector extends Codelet {
         }
         this.knownJewelsMO = (MemoryObject) this.getOutput("KNOWN_JEWELS");
     }
-    
+
     @Override
-	public void proc() {
-            CopyOnWriteArrayList<Thing> vision;
-            List<Thing> known;
-            synchronized (visionMO) {
-               //vision = Collections.synchronizedList((List<Thing>) visionMO.getI());
-               vision = new CopyOnWriteArrayList((List<Thing>) visionMO.getI());    
-               known = Collections.synchronizedList((List<Thing>) knownJewelsMO.getI());
-               //known = new CopyOnWriteArrayList((List<Thing>) knownApplesMO.getI());    
-               synchronized(vision) {
-                 for (Thing t : vision) {
+    public void proc() {
+        CopyOnWriteArrayList<Thing> vision;
+        List<Thing> known;
+        synchronized (visionMO) {
+            //vision = Collections.synchronizedList((List<Thing>) visionMO.getI());
+            vision = new CopyOnWriteArrayList((List<Thing>) visionMO.getI());
+            known = Collections.synchronizedList((List<Thing>) knownJewelsMO.getI());
+            //known = new CopyOnWriteArrayList((List<Thing>) knownApplesMO.getI());    
+            synchronized (vision) {
+                for (Thing t : vision) {
                     boolean found = false;
-                    synchronized(known) {
-                       CopyOnWriteArrayList<Thing> myknown = new CopyOnWriteArrayList<>(known);
-                       for (Thing e : myknown)
-                          if (t.getName().equals(e.getName())) {
-                            found = true;
-                            break;
-                          }
-                       if (!found && isJewelFromLeaflet(t)) {
-                           known.add(t);
-                           System.out.println("achou joia de leaflet");
-                       }
+                    synchronized (known) {
+                        CopyOnWriteArrayList<Thing> myknown = new CopyOnWriteArrayList<>(known);
+                        for (Thing e : myknown) {
+                            if (t.getName().equals(e.getName())) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found && isJewelFromLeaflet(t)) {
+                            known.add(t);
+                        }
                     }
-               
-                 }
-               }
-            }
-	}// end proc
-        
-        private boolean isJewelFromLeaflet(Thing t){
-            for(Leaflet leaflet : c.getLeaflets()){
-                if(leaflet.ifInLeaflet(t.getMaterial().getColorName())){
-                    return true;
                 }
             }
-            
-            return false;
         }
-        
-        @Override
-        public void calculateActivation() {
-        
+    }// end proc
+
+    private boolean isJewelFromLeaflet(Thing t) {
+        for (Leaflet leaflet : c.getLeaflets()) {
+            if (leaflet.ifInLeaflet(t.getMaterial().getColorName())) {
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    @Override
+    public void calculateActivation() {
+
+    }
 
 }

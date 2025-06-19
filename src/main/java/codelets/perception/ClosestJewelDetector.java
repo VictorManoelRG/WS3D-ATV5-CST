@@ -39,33 +39,37 @@ public class ClosestJewelDetector extends Codelet {
 
     @Override
     public void proc() {
-        Thing closest_jewel = null;
+        Thing closestJewel = null;
+        double closestDistance = Double.MAX_VALUE;
+
         known = Collections.synchronizedList((List<Thing>) knownMO.getI());
         Idea cis = (Idea) innerSenseMO.getI();
 
-        synchronized (known) {
-            if (known.size() != 0) {
-                CopyOnWriteArrayList<Thing> myknown = new CopyOnWriteArrayList<>(known);
-                for (Thing t : myknown) {
-                    if (t.getCategory() != Constants.categoryJEWEL) {
-                        continue;
-                    }
+        double selfX = (double) cis.get("position.x").getValue();
+        double selfY = (double) cis.get("position.y").getValue();
 
-                    if (closest_jewel == null) {
-                        closest_jewel = t;
-                    } else {
-                        double Dnew = calculateDistance(t.getX1(), t.getY1(), (double) cis.get("position.x").getValue(), (double) cis.get("position.y").getValue());
-                        double Dclosest = calculateDistance(closest_jewel.getX1(), closest_jewel.getY1(), (double) cis.get("position.x").getValue(), (double) cis.get("position.y").getValue());
-                        if (Dnew < Dclosest) {
-                            closest_jewel = t;
-                            System.out.println("joia  mais perto: " +  t.getMaterial().getColorName());
-                        }
-                    }
+        synchronized (known) {
+            for (Thing t : known) {
+                if (t.getCategory() != Constants.categoryJEWEL) {
+                    continue;
+                }
+
+                double jewelX = t.getCenterPosition().getX();
+                double jewelY = t.getCenterPosition().getY();
+
+                double distance = calculateDistance(jewelX, jewelY, selfX, selfY);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestJewel = t;
                 }
             }
         }
+        if (closestJewel != null) {
+            System.out.println("joia mais perto: " + closestJewel.getMaterial().getColorName());
+        }
 
-        closestJewelMO.setI(closest_jewel);
+        closestJewelMO.setI(closestJewel);
     }
 
     @Override

@@ -48,6 +48,13 @@ public class GoToClosestJewel extends Codelet {
         Thing closestJewel = (Thing) closestJewelMO.getI();
         Idea cis = (Idea) selfInfoMO.getI();
 
+        double fuel = (double) cis.get("fuel").getValue();
+
+        if (fuel > 400) {
+            activation = 0;
+            return;
+        }
+
         if (closestJewel != null) {
             double jewelX = 0;
             double jewelY = 0;
@@ -80,11 +87,7 @@ public class GoToClosestJewel extends Codelet {
                     activation = 1.0;
 
                 } else {//Stop
-                    message.add(Idea.createIdea("ACTION", "GOTO", Idea.guessType("Property", null, 1.0, 0.5)));
-                    message.add(Idea.createIdea("X", (int) jewelX, Idea.guessType("Property", null, 1.0, 0.5)));
-                    message.add(Idea.createIdea("Y", (int) jewelY, Idea.guessType("Property", null, 1.0, 0.5)));
-                    message.add(Idea.createIdea("SPEED", 0, Idea.guessType("Property", null, 1.0, 0.5)));
-                    activation = 0.5;
+                    activation = 0;
                 }
                 legsMO.setI(toJson(message), activation, name);
             } catch (JSONException e) {
