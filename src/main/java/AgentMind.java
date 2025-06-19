@@ -23,6 +23,7 @@ import br.unicamp.cst.core.entities.Mind;
 import br.unicamp.cst.representation.idea.Idea;
 import codelets.behaviors.EatClosestApple;
 import codelets.behaviors.Forage;
+import codelets.behaviors.GetClosestJewel;
 import codelets.behaviors.GoToClosestApple;
 import codelets.behaviors.GoToClosestJewel;
 import codelets.motor.HandsActionCodelet;
@@ -189,6 +190,15 @@ public class AgentMind extends Mind {
                 insertCodelet(eatApple);
                 registerCodelet(eatApple,"Behavioral");
                 behavioralCodelets.add(eatApple);
+                
+                Codelet getClosestJewel=new GetClosestJewel(reachDistance);
+		getClosestJewel.addInput(closestJewelMO);
+		getClosestJewel.addInput(innerSenseMO);
+		getClosestJewel.addOutput(handsMO);
+                getClosestJewel.addOutput(knownJewelsMO);
+                insertCodelet(getClosestJewel);
+                registerCodelet(getClosestJewel,"Behavioral");
+                behavioralCodelets.add(getClosestJewel);
                 
                 Codelet forage=new Forage();
 		forage.addInput(knownApplesMO);
