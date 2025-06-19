@@ -1,3 +1,5 @@
+
+
 /*****************************************************************************
  * Copyright 2007-2015 DCA-FEEC-UNICAMP
  *
@@ -18,6 +20,8 @@
  *****************************************************************************/
 
 import br.unicamp.cst.util.viewer.MindViewer;
+import environment.AgentMind;
+import environment.Environment;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

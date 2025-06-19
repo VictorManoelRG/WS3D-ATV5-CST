@@ -99,14 +99,10 @@ public class GoToClosestApple extends Codelet {
                                         message.add(Idea.createIdea("X",(int)appleX, Idea.guessType("Property",null,1.0,0.5)));
                                         message.add(Idea.createIdea("Y",(int)appleY, Idea.guessType("Property",null,1.0,0.5)));
                                         message.add(Idea.createIdea("SPEED",creatureBasicSpeed, Idea.guessType("Property",null,1.0,0.5)));
-                                        activation=1.0;
+                                        activation=0.9;
 
-				}else{//Stop
-                                        message.add(Idea.createIdea("ACTION","GOTO", Idea.guessType("Property",null,1.0,0.5)));
-                                        message.add(Idea.createIdea("X",(int)appleX, Idea.guessType("Property",null,1.0,0.5)));
-                                        message.add(Idea.createIdea("Y",(int)appleY, Idea.guessType("Property",null,1.0,0.5)));
-                                        message.add(Idea.createIdea("SPEED",0, Idea.guessType("Property",null,1.0,0.5)));
-                                        activation=0.5;
+				}else{
+                                        activation=0;
 				}
 				legsMO.setI(toJson(message),activation,name);
 			} catch (JSONException e) {

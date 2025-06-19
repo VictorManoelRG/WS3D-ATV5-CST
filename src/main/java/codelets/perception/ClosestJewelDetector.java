@@ -65,9 +65,6 @@ public class ClosestJewelDetector extends Codelet {
                 }
             }
         }
-        if (closestJewel != null) {
-            System.out.println("joia mais perto: " + closestJewel.getMaterial().getColorName());
-        }
 
         closestJewelMO.setI(closestJewel);
     }

@@ -50,7 +50,7 @@ public class GoToClosestJewel extends Codelet {
 
         double fuel = (double) cis.get("fuel").getValue();
 
-        if (fuel > 400) {
+        if (fuel < 400) {
             activation = 0;
             return;
         }
@@ -84,7 +84,7 @@ public class GoToClosestJewel extends Codelet {
                     message.add(Idea.createIdea("X", (int) jewelX, Idea.guessType("Property", null, 1.0, 0.5)));
                     message.add(Idea.createIdea("Y", (int) jewelY, Idea.guessType("Property", null, 1.0, 0.5)));
                     message.add(Idea.createIdea("SPEED", creatureBasicSpeed, Idea.guessType("Property", null, 1.0, 0.5)));
-                    activation = 1.0;
+                    activation = 0.3;
 
                 } else {//Stop
                     activation = 0;

@@ -1,3 +1,5 @@
+package environment;
+
 /*****************************************************************************
  * Copyright 2007-2015 DCA-FEEC-UNICAMP
  *
@@ -26,6 +28,7 @@ import codelets.behaviors.Forage;
 import codelets.behaviors.GetClosestJewel;
 import codelets.behaviors.GoToClosestApple;
 import codelets.behaviors.GoToClosestJewel;
+import codelets.behaviors.GoToDeliverySpot;
 import codelets.motor.HandsActionCodelet;
 import codelets.motor.LegsActionCodelet;
 import codelets.perception.AppleDetector;
@@ -181,6 +184,13 @@ public class AgentMind extends Mind {
                 registerCodelet(goToClosestJewel,"Behavioral");
                 
                 behavioralCodelets.add(goToClosestJewel);
+                
+                Codelet goToDeliverySpot = new GoToDeliverySpot(env.c,reachDistance,creatureBasicSpeed);
+		goToDeliverySpot.addOutput(legsMO);
+                insertCodelet(goToDeliverySpot);
+                registerCodelet(goToDeliverySpot,"Behavioral");
+                
+                behavioralCodelets.add(goToDeliverySpot);
 		
 		Codelet eatApple=new EatClosestApple(reachDistance);
 		eatApple.addInput(closestAppleMO);
