@@ -1,21 +1,3 @@
-/** ***************************************************************************
- * Copyright 2007-2015 DCA-FEEC-UNICAMP
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Contributors:
- *    Klaus Raizer, Andre Paraense, Ricardo Ribeiro Gudwin
- **************************************************************************** */
 package codelets.motor;
 
 import org.json.JSONException;
@@ -26,28 +8,22 @@ import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.logging.Logger;
 import ws3dproxy.model.Creature;
 import ws3dproxy.model.Leaflet;
 
 /**
- * Hands Action Codelet monitors working storage for instructions and acts on
- * the World accordingly.
- *
- * @author klaus
- *
+ * Hands Action Codelet - executa comandos recebidos da memória.
+ * Essa versão executa comandos repetidos SEM checar se são iguais ao anterior.
  */
 public class HandsActionCodelet extends Codelet {
 
     private Memory handsMO;
-    private String previousHandsAction = "";
     private Creature c;
-    private Random r = new Random();
     static Logger log = Logger.getLogger(HandsActionCodelet.class.getCanonicalName());
 
     public HandsActionCodelet(Creature nc) {
-        c = nc;
+        this.c = nc;
         this.name = "HandsActionCodelet";
     }
 
@@ -56,97 +32,84 @@ public class HandsActionCodelet extends Codelet {
         handsMO = (MemoryObject) this.getInput("HANDS");
     }
 
+    @Override
     public void proc() {
 
         String command = (String) handsMO.getI();
+        System.out.println("comando: " + command +" .\n");
 
-        if (!command.equals("") && (!command.equals(previousHandsAction))) {
-            JSONObject jsonAction;
-            try {
-                jsonAction = new JSONObject(command);
-                if (jsonAction.has("ACTION") && jsonAction.has("OBJECT")) {
-                    String action = jsonAction.getString("ACTION");
-                    String objectName = jsonAction.getString("OBJECT");
-                    if (action.equals("PICKUP")) {
+        if (command == null || command.isEmpty()) {
+            return; // Nada para fazer
+        }
+
+        try {
+            JSONObject jsonAction = new JSONObject(command);
+
+            if (jsonAction.has("ACTION") && jsonAction.has("OBJECT")) {
+                String action = jsonAction.getString("ACTION");
+                String objectName = jsonAction.getString("OBJECT");
+
+                switch (action) {
+                    case "EATIT":
                         try {
-                            c.putInSack(objectName);
-                        } catch (Exception e) {
-
-                        }
-                        log.info("Sending Put In Sack command to agent:****** " + objectName + "**********");
-
-                        //							}
-                    }
-                    if (action.equals("EATIT")) {
-                        try {
-                            Thread.sleep(200);
                             c.eatIt(objectName);
-                            Thread.sleep(200);
                         } catch (Exception e) {
-
+                            e.printStackTrace();
                         }
-                        log.info("Sending Eat command to agent:****** " + objectName + "**********");
-                    }
-                    if (action.equals("DELIVERLEAFLET")) {
+                        log.info("Sending Eat command to agent: " + objectName);
+                        break;
+
+                    case "DELIVERLEAFLET":
                         try {
                             for (Leaflet l : c.getLeaflets()) {
                                 if (isLeafletCompleted(l)) {
-                                    Thread.sleep(200);
                                     c.deliverLeaflet(l.getID().toString());
-                                    Thread.sleep(200);
                                 }
                             }
                         } catch (Exception e) {
-                            System.out.println("aaaaaaaaaaa");
+                            e.printStackTrace();
                         }
-                        log.info("Sending deliver command to agent:****** " + objectName + "**********");
-                    }
-                    if (action.equals("GETJEWEL")) {
-                        try {
-                            Thread.sleep(200);
-                            c.putInSack(objectName);
-                            Thread.sleep(200);
-                        } catch (Exception e) {
+                        log.info("Sending Deliver Leaflet command to agent.");
+                        break;
 
+                    case "GETJEWEL":
+                        try {
+                            c.putInSack(objectName);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        log.info("Sending get jewel command to agent:****** " + objectName + "**********");
-                    }
-                    if (action.equals("BURY")) {
+                        log.info("Sending Get Jewel command to agent: " + objectName);
+                        break;
+
+                    case "BURY":
                         try {
                             c.hideIt(objectName);
                         } catch (Exception e) {
-
+                            e.printStackTrace();
                         }
-                        log.info("Sending Bury command to agent:****** " + objectName + "**********");
-                    }
+                        log.info("Sending Bury command to agent: " + objectName);
+                        break;
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
+        handsMO.setI("");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        previousHandsAction = (String) handsMO.getI();
     }
 
     @Override
     public void calculateActivation() {
-
+        // Não utilizado
     }
 
     private boolean isLeafletCompleted(Leaflet l) {
-        boolean completed = true;
         HashMap<String, Integer[]> items = l.getItems();
         for (Map.Entry<String, Integer[]> i : items.entrySet()) {
             Integer[] array = i.getValue();
-            int required = array[0];
-            int collected = array[1];
-
-            if (required > collected) {
-                completed = false;
-                break;
+            if (array[0] > array[1]) {
+                return false;
             }
-
         }
-        return completed;
+        return true;
     }
 }

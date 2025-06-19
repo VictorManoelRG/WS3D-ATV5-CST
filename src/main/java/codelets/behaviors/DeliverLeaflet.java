@@ -87,7 +87,6 @@ public class DeliverLeaflet extends Codelet {
                 handsMO.setI(message.toString());
                 activation = 1.0;
             } else {
-                handsMO.setI("");
                 activation = 0.0;
             }
 

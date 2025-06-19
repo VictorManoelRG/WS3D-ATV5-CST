@@ -84,21 +84,19 @@ public class GetClosestJewel extends Codelet {
                 if (distance <= reachDistance) { //eat it						
                     message.put("OBJECT", jewelName);
                     message.put("ACTION", "GETJEWEL");
+                    System.out.println("PEGAR JOIA");
                     handsMO.setI(message.toString());
                     activation = 1.0;
                     DestroyClosestJewel();
                 } else {
-                    handsMO.setI("");	//nothing
                     activation = 0.0;
                 }
 
-//				System.out.println(message);
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } else {
-            handsMO.setI("");	//nothing
             activation = 0.0;
         }
     }
