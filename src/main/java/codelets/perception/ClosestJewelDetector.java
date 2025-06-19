@@ -8,6 +8,7 @@ import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.representation.idea.Idea;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -48,21 +49,25 @@ public class ClosestJewelDetector extends Codelet {
         double selfX = (double) cis.get("position.x").getValue();
         double selfY = (double) cis.get("position.y").getValue();
 
+        List<Thing> copyOfKnown;
         synchronized (known) {
-            for (Thing t : known) {
-                if (t.getCategory() != Constants.categoryJEWEL) {
-                    continue;
-                }
+            // Faz uma cópia para iterar sem riscos de ConcurrentModificationException
+            copyOfKnown = new ArrayList<>(known);
+        }
 
-                double jewelX = t.getCenterPosition().getX();
-                double jewelY = t.getCenterPosition().getY();
+        for (Thing t : copyOfKnown) {
+            if (t.getCategory() != Constants.categoryJEWEL) {
+                continue;
+            }
 
-                double distance = calculateDistance(jewelX, jewelY, selfX, selfY);
+            double jewelX = t.getCenterPosition().getX();
+            double jewelY = t.getCenterPosition().getY();
 
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestJewel = t;
-                }
+            double distance = calculateDistance(jewelX, jewelY, selfX, selfY);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestJewel = t;
             }
         }
 
